@@ -5,6 +5,7 @@ const typerInput = document.getElementById('typer-input')
 const countdownButton = document.getElementById('countdown-button')
 const countdownTimer = document.getElementById('countdown-timer')
 const completedWords = document.getElementById('completed-words')
+let timer 
 
 // the words you'll use //
 
@@ -24,16 +25,51 @@ function newWord() {
 // callback functions //
 
 function handleTypingChange(event) {
-  console.log(event.target.value)
+  // console.log(event.target.value)
+  const userInput = event.target.value
+
+  if (userInput === currentWord) {
+    addToCompleted(userInput)
+    newWord()
+    typerInput.value = ""
+    word.innerText = currentWord
+  } 
 }
 
 function handleCountdownClick(event) {
-  console.log(`${event.target} has been clicked!`)
+  // console.log(`${event.target} has been clicke-d!`)
+  completedWords.innerHTML = ""
+  event.target.style.visibility = "hidden"
+  typerInput.style.visibility = "visible"
+  newWord()
+  word.innerText = currentWord
+
+  countdownTimer.innerText = "20"
+  timer = setInterval(countdown, 1000)
+  typerInput.focus()
+}
+
+function addToCompleted(word) {
+  const li = document.createElement("li")
+  li.innerText = word
+  completedWords.appendChild(li)
+}
+
+function countdown() {
+  if (parseInt(countdownTimer.innerText, 10) > 0) {
+    // countdownTimer.innerText = countdownTimer.innerText - 1
+    countdownTimer.innerText = parseInt(countdownTimer.innerText, 10) - 1
+  }
+  else {
+    clearInterval(timer)
+    countdownButton.style.visibility = "visible"
+    typerInput.style.visibility = "hidden"
+  } 
 }
 
 // set initial styles and add event listeners //
 typerInput.style.visibility = "hidden"
-countdownTimer.style.visibility = "hidden"
+// countdownTimer.style.visibility = "hidden"
 
 typerInput.addEventListener("change", handleTypingChange)
 countdownButton.addEventListener("click", handleCountdownClick)

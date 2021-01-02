@@ -21,3 +21,7 @@ button {
 input {
   margin: 2em;
 }
+
+#typer-input {
+  color: black
+}
